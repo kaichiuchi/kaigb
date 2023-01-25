@@ -24,7 +24,7 @@ function(kaigb_target_configure TARGET_NAME)
                         C_EXTENSIONS OFF)
 
   if (CMAKE_C_COMPILER_ID MATCHES "Clang" OR # MATCHES to account for AppleClang
-      CMAKE_C_COMPILER_ID STREQUAL "GCC")
+      CMAKE_C_COMPILER_ID STREQUAL "GNU")
       target_compile_options(${TARGET_NAME} PRIVATE -pipe)
 
       if (CMAKE_BUILD_TYPE STREQUAL "Debug")
