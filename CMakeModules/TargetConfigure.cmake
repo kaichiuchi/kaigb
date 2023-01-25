@@ -28,8 +28,7 @@ function(kaigb_target_configure TARGET_NAME)
       target_compile_options(${TARGET_NAME} PRIVATE -pipe)
 
       if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-        target_compile_options(${TARGET_NAME} PRIVATE -ggdb3
-                                                      -Wall
+        target_compile_options(${TARGET_NAME} PRIVATE -Wall
                                                       -Wduplicated-branches
                                                       -Wduplicated-cond
                                                       -Werror
@@ -41,6 +40,8 @@ function(kaigb_target_configure TARGET_NAME)
 
         if (KAIGB_EXTRA_COMPILE_CHECKS)
           target_compile_options(${TARGET_NAME} PRIVATE -O1 -Wnull-dereference)
+        else()
+          target_compile_options(${TARGET_NAME} PRIVATE -ggdb3 -O0)
         endif()
       endif()
   endif()
