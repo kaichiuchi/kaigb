@@ -37,7 +37,6 @@ project(kaigb VERSION 1.0.0.0
               HOMEPAGE_URL "https://github.com/kaichiuchi/kaigb"
               LANGUAGES C)
 
-# Enforce out-of-source builds.
 if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_BINARY_DIR})
   message(FATAL_ERROR "You cannot create a build inside of the source "
                       "directory. Try running this command: \"cmake -S "
@@ -48,9 +47,8 @@ endif()
 # have native support for CMake, but it isn't wrong to support other workflows.
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-# Set the default build type if one wasn't specified. For development versions,
-# this should be set to Debug. For all other versions, this should be set to
-# Release.
+# For development versions, this should be set to Debug. For all other versions,
+# this should be set to Release.
 #
 # https://www.kitware.com//cmake-and-the-default-build-type/
 set(BUILD_TYPE_DEFAULT "Debug")
@@ -61,13 +59,20 @@ if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 
   set_property(CACHE CMAKE_BUILD_TYPE PROPERTY VALUE “${BUILD_TYPE_DEFAULT}”)
 
-  # Set the possible values of build type for cmake-gui
+  # Set the possible values of build type for cmake-gui.
   set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
                "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
 
 # Define command line options.
 option(KAIGB_TESTS_BUILD "Build the unit tests" ON)
+
+# This looks horrible, I know. You can blame CMake for this.
+option(KAIGB_EXTRA_COMPILE_CHECKS "Enables additional warning checks during \
+compile-time, which requires compiler optimization to be enabled. This is only \
+suitable to verify that the codebase is truly free of warnings. If you wish to \
+debug the code, do not enable this option. This option has no effect when the \
+Debug build type is not specified." ON)
 
 # Add the `kaigb_target_configure()` command.
 include(CMakeModules/TargetConfigure.cmake)
